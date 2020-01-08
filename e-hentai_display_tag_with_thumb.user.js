@@ -2,14 +2,14 @@
 // @name        E-Hentai Display and Highlight Tag with Thumbnail
 // @namespace   E-Hentai_Display_Tag_with_thumb
 // @supportURL  https://github.com/zhuzemin
-// @description E-Hentai 显示Tag在缩略图模式
+// @description E-Hentai 显示并高亮Tag在缩略图模式
 // @include     https://exhentai.org/
 // @include     https://e-hentai.org/
 // @include     https://exhentai.org/?*
 // @include     https://e-hentai.org/?*
 // @include     https://exhentai.org/tag/*
 // @include     https://e-hentai.org/tag/*
-// @version     1.2
+// @version     1.3
 // @grant       GM_xmlhttpRequest
 // @grant         GM_registerMenuCommand
 // @grant         GM_setValue
@@ -89,6 +89,9 @@ class Gallery{
   }
 }
 var init = function () {
+  var FirstRun=true;
+  var interval=0;
+  var LastDivNum=0;
   var tags=[];
   try{
     tags=GM_getValue("tags").split(";");
@@ -96,8 +99,14 @@ var init = function () {
     debug("Not set tags.");
   }
   CreateStyle();
+setInterval(function(){
+  if(!FirstRun){
+    interval=5000;
+  }
+  FirstRun=false;
   var divs = document.querySelectorAll('div.gl1t');
-  for (var i = 0; i < divs.length; ++i) {
+  if(LastDivNum<divs.length){
+  for (var i = LastDivNum; i < divs.length; ++i) {
     (function (div) {
       var taglist=document.createElement("div");
       taglist.setAttribute("id","taglist");
@@ -131,5 +140,9 @@ var init = function () {
       });
     }) (divs[i]);
   }
+    LastDivNum=divs.length;
+    
+  }
+  }, interval)
 }
 window.addEventListener('DOMContentLoaded', init);
