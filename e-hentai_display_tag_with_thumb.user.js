@@ -9,7 +9,7 @@
 // @include     https://e-hentai.org/?*
 // @include     https://exhentai.org/tag/*
 // @include     https://e-hentai.org/tag/*
-// @version     1.3
+// @version     1.4
 // @grant       GM_xmlhttpRequest
 // @grant         GM_registerMenuCommand
 // @grant         GM_setValue
@@ -89,8 +89,6 @@ class Gallery{
   }
 }
 var init = function () {
-  var FirstRun=true;
-  var interval=0;
   var LastDivNum=0;
   var tags=[];
   try{
@@ -99,11 +97,7 @@ var init = function () {
     debug("Not set tags.");
   }
   CreateStyle();
-setInterval(function(){
-  if(!FirstRun){
-    interval=5000;
-  }
-  FirstRun=false;
+  setInterval(function(){
   var divs = document.querySelectorAll('div.gl1t');
   if(LastDivNum<divs.length){
   for (var i = LastDivNum; i < divs.length; ++i) {
@@ -128,11 +122,14 @@ setInterval(function(){
           debug(galleryHtml);
           taglist = galleryHtml.querySelector('#taglist');
           var links=taglist.querySelectorAll("a");
-          for(var link of links){
-            for(var tag of tags){
+          for(var tag of tags){
+            debug("Highlight: "+tag);
+            if(tag.length>1){
+            for(var link of links){
               if(link.innerText==tag.trim()){
                 link.parentNode.className +=" glowbox";
               }
+            }
             }
           }
           div.replaceChild(taglist,div.querySelector("#taglist"));
@@ -143,6 +140,7 @@ setInterval(function(){
     LastDivNum=divs.length;
     
   }
-  }, interval)
+  }, 2000);
+
 }
 window.addEventListener('DOMContentLoaded', init);
