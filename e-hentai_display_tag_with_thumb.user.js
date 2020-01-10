@@ -9,7 +9,7 @@
 // @include     https://e-hentai.org/?*
 // @include     https://exhentai.org/tag/*
 // @include     https://e-hentai.org/tag/*
-// @version     1.4
+// @version     1.5
 // @grant       GM_xmlhttpRequest
 // @grant         GM_registerMenuCommand
 // @grant         GM_setValue
@@ -122,10 +122,10 @@ var init = function () {
           debug(galleryHtml);
           taglist = galleryHtml.querySelector('#taglist');
           var links=taglist.querySelectorAll("a");
+            for(var link of links){
           for(var tag of tags){
             debug("Highlight: "+tag);
             if(tag.length>1){
-            for(var link of links){
               if(link.innerText==tag.trim()){
                 link.parentNode.className +=" glowbox";
               }
