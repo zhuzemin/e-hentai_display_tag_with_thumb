@@ -9,7 +9,9 @@
 // @include     https://e-hentai.org/?*
 // @include     https://exhentai.org/tag/*
 // @include     https://e-hentai.org/tag/*
-// @version     1.5
+// @include     https://exhentai.org/#E-Hentai_Display_Tag_with_thumb
+// @include     https://e-hentai.org/#E-Hentai_Display_Tag_with_thumb
+// @version     1.6
 // @grant       GM_xmlhttpRequest
 // @grant         GM_registerMenuCommand
 // @grant         GM_setValue
@@ -91,6 +93,7 @@ class Gallery{
 var init = function () {
   var LastDivNum=0;
   var tags=[];
+  var FirstRun=true;
   try{
     tags=GM_getValue("tags").split(";");
   }catch(e){
@@ -99,6 +102,10 @@ var init = function () {
   CreateStyle();
   setInterval(function(){
   var divs = document.querySelectorAll('div.gl1t');
+  if(window.location.href.includes("#E-Hentai_Display_Tag_with_thumb")&&FirstRun){
+      LastDivNum=0;
+      FirstRun=false;
+  }
   if(LastDivNum<divs.length){
   for (var i = LastDivNum; i < divs.length; ++i) {
     (function (div) {
